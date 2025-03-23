@@ -12,6 +12,7 @@ console.log(`env: ${env}`);
 const envContext = app.node.tryGetContext(env);
 console.log(`envContext: ${JSON.stringify(envContext)}`);
 
+// Consume specific environment context values
 const hello = envContext.hello;
 console.log(`hello: ${hello}`);
 
