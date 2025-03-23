@@ -8,7 +8,7 @@ This repository is part of my article on [AWS CDK v2: Enhanced Context Managemen
 
 # Each Branch Represents a Different Stage in the Article
 
-Each branch represents a different stage in the article. The branch name is the stage name. The branch `main` is the inital stage.
+Each branch represents a different stage in the article. The branch name is the stage name. The branch `main` is the final stage.
 branches:
 
 - 1—Plain-and-simple
