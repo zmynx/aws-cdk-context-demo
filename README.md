@@ -1,6 +1,6 @@
 # aws-cdk-context-demo
 
-![https://miro.medium.com/v2/resize:fit:1400/format:webp/1*QoGxt4bj7zdvOqnrBqDU_Q.png]
+![AWS CDK v2: Enhanced Context Management](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*QoGxt4bj7zdvOqnrBqDU_Q.png)
 
 # Intro
 
