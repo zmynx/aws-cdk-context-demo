@@ -15,11 +15,7 @@
     ]
   },
   "context": {
-    "env": "dev",
-    "dev": {
-      "objective": "demo",
-      "hello": "world!"
-    },
+    "dev": "@configs/dev.context.json",
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": ["aws", "aws-cn"],

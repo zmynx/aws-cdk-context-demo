@@ -1,27 +1,45 @@
 #!/usr/bin/env node
-import { App } from "aws-cdk-lib";
-import { AwsCdkContextDemoStack } from "../lib/aws-cdk-context-demo-stack";
+import * as fs from "fs";
+import * as path from "path";
+import { App, Tags } from "aws-cdk-lib";
+import {
+  AwsCdkContextDemoStack,
+  AwsCdkContextDemoStackProps,
+} from "../lib/aws-cdk-context-demo-stack";
 
 const app = new App();
 
-// Consume a context parameter and print it
-const env = app.node.tryGetContext("env");
-console.log(`env: ${env}`);
+// Load context dynamically based on environment
+const env = app.node.tryGetContext("env") || "dev";
 
-// Consume environment context parameters and pass them to the stack
-const envContext = app.node.tryGetContext(env);
-console.log(`envContext: ${JSON.stringify(envContext)}`);
+// Parse reference to context file
+let contextFilePath = app.node.tryGetContext(env);
+if (contextFilePath.startsWith("@")) {
+  contextFilePath = path.join(process.cwd(), contextFilePath.substring(1));
+  console.log(`contextFilePath: ${contextFilePath}`);
+} else {
+  throw new Error(
+    "Context file path must be relative to the current working directory, and be referenced with @",
+  );
+}
 
-// Consume specific environment context values
-const hello = envContext.hello;
-console.log(`hello: ${hello}`);
+// Check if the context file exists
+if (!fs.existsSync(contextFilePath)) {
+  throw new Error(`Context file for environment '${env}' not found`);
+}
 
+// Extract context from the file, and pass it to the construct
+const context = JSON.parse(
+  fs.readFileSync(contextFilePath, "utf8"),
+) as AwsCdkContextDemoStackProps;
+console.log(`EnvProps: ${JSON.stringify(context, null, 2)}`);
+
+// Pass context to the construct
 new AwsCdkContextDemoStack(app, `${env}-AwsCdkContextDemoStack`, {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION,
   },
-  // Pass the context here
-  // envContext: envContext,
+  ...context, // Expand the context
 });
 
